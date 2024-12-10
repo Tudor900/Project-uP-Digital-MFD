@@ -16,13 +16,25 @@
             const angle = (speed / maxSpeed) * 180 - 90; // Convert speed to needle angle
             document.querySelector('.needle').style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
         }
+        function fullscreen() {
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
+        }
 
         setInterval(updateLabel, 1000);  // Refresh the label and needle every second
     </script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    
+    <button onclick="fullscreen()"> fullscreen</button>
 
     <div class="speed-clock">
         <div class="dial">
