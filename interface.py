@@ -21,14 +21,15 @@ print("Connection Status:", connection.is_connected())
 def printRPM(r):
     global RPM
     RPM = r.value.magnitude
-    global label_text
-    label_text = RPM
+    
     print(RPM)
     return RPM
 
 def printSPEED(r):
     global SPEED
-    SPEED = r.value
+    SPEED = r.value.magnitude
+    global label_text
+    label_text = SPEED
     print(SPEED)
     return SPEED
 SPEED = 69420
