@@ -3,19 +3,43 @@ from threading import Thread
 import time
 import random
 import obdconnection
+import obd
+import time
+from obd import OBDCommand, Unit
+from obd.protocols import ECU
+from obd.utils import bytes_to_int
 
 
 
 app = Flask(__name__)
-label_text = obdconnection.SPEED
+label_text = 0
 
+connection = obd.Async(portstr="/dev/rfcomm0", protocol="6", baudrate=115200, fast=False, timeout=30)
 
+print("Connection Status:", connection.is_connected())
+
+def printRPM(r):
+    global RPM
+    RPM = r.value.magnitude
+    print(RPM)
+    return RPM
+
+def printSPEED(r):
+    global SPEED
+    SPEED = r.value.magnitude
+    print(SPEED)
+    return SPEED
+SPEED = 69420
+connection.watch(obd.commands.RPM, callback=printRPM)
+connection.watch(obd.commands.SPEED, callback=printSPEED)
+
+connection.start()
 
 # Background task to update the label
 def modify_speed():
     while True:      
           # Simulate a long-running task
-        label_text = obdconnection.SPEED
+        label_text = SPEED
 
 @app.route('/')
 def index():
@@ -29,7 +53,6 @@ def get_speed():
     
 
 if __name__ == '__main__':
-    Thread(target=obdconnection.main, daemon=True).start()
     Thread(target=modify_speed, daemon=True).start()  # Run the background task
     app.run(debug=True)
 

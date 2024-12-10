@@ -3,8 +3,6 @@ import time
 from obd import OBDCommand, Unit
 from obd.protocols import ECU
 from obd.utils import bytes_to_int
-# obd.logger.setLevel(obd.logging.DEBUG)
-SPEED = 69420
 # OBD connection parameters
 fuel_used = 0
 fuel_price = 7.11  # Price per liter in RON
