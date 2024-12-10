@@ -12,22 +12,17 @@ connection = obd.Async(portstr="/dev/rfcomm0", protocol="6", baudrate=115200, fa
 
 print("Connection Status:", connection.is_connected())
 
-afr = 1/14.7
-MAF = 0
-SPEED = 0
-def printMAF(r):
-    global MAF
-    MAF = r.value.magnitude
-    print(r.value)
+
+def printRPM(r):
+    global RPM
+    RPM = r.value.magnitude
+    print(RPM)
     #time.sleep(1)
     
 def printSPEED(r):
-    global MAF
     global SPEED
     SPEED = r.value.magnitude
-    fuel = (3600000*MAF)/(SPEED * 14.7 * 832)
-    print(fuel)
-    print(r.value)
+    print(SPEED)
     #time.sleep(1)
 
     
