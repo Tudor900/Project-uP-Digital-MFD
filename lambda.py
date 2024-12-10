@@ -23,4 +23,4 @@ c = OBDCommand("RPM",         # name
                ECU.ENGINE,      # (optional) ECU filter
                True)             # (optional) allow a "01" to be added for speed
 connection.supported_commands.add(c)
-print(connection.query(c)
+print(connection.query(c))
