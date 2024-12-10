@@ -2,12 +2,12 @@ from flask import Flask, render_template, jsonify
 from threading import Thread
 import time
 import random
+import obdconnection
+
 
 
 app = Flask(__name__)
-label_text = "Original Label"
-
-  
+label_text = obdconnection.SPEED
 
 
 
@@ -15,7 +15,7 @@ label_text = "Original Label"
 def modify_speed():
     while True:      
           # Simulate a long-running task
-        label_text = "test"
+        label_text = obdconnection.SPEED
 
 @app.route('/')
 def index():
@@ -29,7 +29,7 @@ def get_speed():
     
 
 if __name__ == '__main__':
-
+    Thread(target=obdconnection.main, daemon=True).start()
     Thread(target=modify_speed, daemon=True).start()  # Run the background task
     app.run(debug=True)
 
