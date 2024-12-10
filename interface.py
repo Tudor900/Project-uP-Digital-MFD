@@ -41,6 +41,7 @@ def modify_speed():
           # Simulate a long-running task
         global RPM
         label_text = RPM
+        print("RPM: ", label_text)
         
 
 @app.route('/')
