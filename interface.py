@@ -40,6 +40,7 @@ def modify_speed():
     while True:      
           # Simulate a long-running task
         label_text = SPEED
+        print("se intampla ceva")
 
 @app.route('/')
 def index():
