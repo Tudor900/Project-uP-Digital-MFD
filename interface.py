@@ -39,8 +39,8 @@ connection.start()
 def modify_speed():
     while True:      
           # Simulate a long-running task
-        global SPEED
-        label_text = SPEED
+        global RPM
+        label_text = RPM
         
 
 @app.route('/')
