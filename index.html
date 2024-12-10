@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speedometer</title>
+    <script>
+        async function updateLabel() {
+            const response = await fetch('/get_speed');
+            const data = await response.json();
+            document.getElementById('speed').innerText = data.speed;
+            updateNeedle(data.speed);
+        }
+
+        function updateNeedle(speed) {
+            const maxSpeed = 200; // Define the max speed for the speedometer
+            const angle = (speed / maxSpeed) * 180 - 90; // Convert speed to needle angle
+            document.querySelector('.needle').style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
+        }
+
+        setInterval(updateLabel, 1000);  // Refresh the label and needle every second
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    
+
+    <div class="speed-clock">
+        <div class="dial">
+            <div class="needle"></div>
+            
+        </div>
+        <div class="speed-labels">
+            <span class="speed">0</span>
+            <span class="speed">50</span>
+            <span class="speed">100</span>
+            <span class="speed">150</span>
+            <span class="speed">200</span>
+            <h1 id="label" style="position: relative;top: 70.564%;left: 24%;">Speed</h1>
+            <h1 id="speed" style="position: relative;top: 51%; left:63%">n/a</h1>
+        </div>
+        
+    </div>
+</body>
+</html>

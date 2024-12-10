@@ -1,0 +1,81 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f0f0f0;
+}
+
+.speed-clock {
+  position: relative;
+  width: 300px;
+  height: 300px;
+}
+
+/* Dial (Speedometer Background) */
+.dial {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 10px solid #333;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff, #ccc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Needle */
+.needle {
+  position: absolute;
+  width: 5px; /* Width of the needle */
+  height: 110px; /* Adjust to match the dial's radius */
+  background: red;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform-origin: center bottom; /* Pivot point at the bottom-center */
+  transform: translate(-50%, -100%) rotate(-90deg); /* Center the needle and start at -90 degrees */
+  transition: transform 0.5s ease-out; /* Smooth animation for rotation */
+}
+
+
+.speed-labels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Ensure labels don't block interactions */
+}
+
+.speed {
+  position: absolute;
+  transform: translate(-50%, -50%); /* Center-align the labels */
+  font-size: 16px;
+  color: #333;
+}
+
+/* Positioning each label along the circular path */
+.speed:nth-child(1) { /* 0 */
+  top: 53%;
+  left: 10%;
+}
+.speed:nth-child(2) { /* 50 */
+  top: 24.5%;
+  left: 24%;
+}
+.speed:nth-child(3) { /* 100 */
+  top: 13%;
+  left: 53%;
+}
+.speed:nth-child(4) { /* 150 */
+  top: 24.5%;
+  left: 83%;
+}
+.speed:nth-child(5) { /* 200 */
+  top: 53%;
+  left: 96%;
+}
+
