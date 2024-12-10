@@ -12,7 +12,7 @@ from obd.utils import bytes_to_int
 
 
 app = Flask(__name__)
-label_text = 0
+label_text = 69420
 
 connection = obd.Async(portstr="/dev/rfcomm0", protocol="6", baudrate=115200, fast=False, timeout=30)
 
@@ -26,7 +26,7 @@ def printRPM(r):
 
 def printSPEED(r):
     global SPEED
-    SPEED = r.value.magnitude
+    SPEED = r.value
     print(SPEED)
     return SPEED
 SPEED = 69420
@@ -39,8 +39,9 @@ connection.start()
 def modify_speed():
     while True:      
           # Simulate a long-running task
+        global SPEED
         label_text = SPEED
-        print("se intampla ceva")
+        
 
 @app.route('/')
 def index():
