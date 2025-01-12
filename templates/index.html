@@ -8,13 +8,19 @@
             const response = await fetch('/get_speed');
             const data = await response.json();
             document.getElementById('speed').innerText = data.speed;
-            updateNeedle(data.speed);
+            document.getElementById('rpm').innerText = data.rpm;
+            updateNeedle(data.speed, data.rpm);
+
+
         }
 
-        function updateNeedle(speed) {
+        function updateNeedle(speed, rpm) {
             const maxSpeed = 200; // Define the max speed for the speedometer
             const angle = (speed / maxSpeed) * 180 - 90; // Convert speed to needle angle
+            const maxRPM = 6000;
+            const angleRPM = (rpm / maxRPM) * 240 - 120;
             document.querySelector('.needle').style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
+            document.querySelector('.rpm-needle').style.transform = `translate(-50%, -100%) rotate(${angleRPM}deg)`;
         }
         function fullscreen() {
             var elem = document.documentElement;
@@ -49,6 +55,24 @@
             <span class="speed">200</span>
             <h1 id="label" style="position: relative;top: 70.564%;left: 24%;">Speed</h1>
             <h1 id="speed" style="position: relative;top: 51%; left:63%">n/a</h1>
+        </div>
+        
+    </div>
+    <div class="rpm-clock">
+        <div class="dial">
+            <div class="rpm-needle"></div>
+            
+        </div>
+        <div class="rpm-labels">
+            <span class="rpm">0</span>
+            <span class="rpm">1000</span>
+            <span class="rpm">2000</span>
+            <span class="rpm">3000</span>
+            <span class="rpm">4000</span>
+            <span class="rpm">5000</span>
+            <span class="rpm">6000</span>
+            <h1 id="label" style="position: relative;top: 70.564%;left: 24%;">RPM</h1>
+            <h1 id="rpm" style="position: relative;top: 51%; left:63%">n/a</h1>
         </div>
         
     </div>
