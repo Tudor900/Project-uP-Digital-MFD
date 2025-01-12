@@ -8,58 +8,83 @@ import time
 from obd import OBDCommand, Unit
 from obd.protocols import ECU
 from obd.utils import bytes_to_int
+import serial
+import time
 
 
+app = Flask(__name__) #flask app
+speed_label = 0 # Global variable to store the speed
+rpm_label = 0
 
-app = Flask(__name__)
-global label_text
+def test_label1():
+    global speed_label
+    while True:
+        for i in range(0,5):
+            speed_label += 50
+            if(speed_label == 200):
+                time.sleep(0.5)
+                speed_label = 0
+            time.sleep(1)
+        
 
-connection = obd.Async(portstr="/dev/rfcomm0", protocol="6", baudrate=115200, fast=False, timeout=30)
+def test_label2():
+    global rpm_label
+    while True:
+        for i in range(0,7):
+            rpm_label += 1000
+            if(rpm_label == 6000):
+                time.sleep(0.5)
+                rpm_label = 0
+            time.sleep(1)
 
-print("Connection Status:", connection.is_connected())
+connection = obd.Async(portstr="/dev/tty.OBDII", protocol="6", baudrate=115200, fast=False, timeout=30) # OBD connection
+#print("Connection Status:", connection.is_connected()) # Check if the connection is established
+
 
 def printRPM(r):
-    global RPM
-    RPM = r.value.magnitude
+    global rpm_label
+    rpm_lable = r.value.magnitude
     
     print(RPM)
     return RPM
 
 def printSPEED(r):
-    global SPEED
-    SPEED = r.value.magnitude
-    global label_text
-    label_text = SPEED
+    global speed_label
+    
+    speed_lable = r.value.magnitude
+    
     print(SPEED)
     return SPEED
-SPEED = 69420
-connection.watch(obd.commands.RPM, callback=printRPM)
-connection.watch(obd.commands.SPEED, callback=printSPEED)
 
-connection.start()
 
-# Background task to update the label
-def modify_speed():
-    while True:      
-          # Simulate a long-running task
-        global RPM
-        label_text = printRPM()
-        print("RPM: ", label_text)
+connection.watch(obd.commands.RPM, callback=printRPM) # Watch the RPM command
+connection.watch(obd.commands.SPEED, callback=printSPEED) # Watch the speed command
+
+#connection.start() # Start the connection
+
+# # Background task to update the label
+# def modify_speed():
+#     while True:      
+#           # Simulate a long-running task
+#         global RPM
+#         label_text = printRPM()
+#         print("RPM: ", label_text)
         
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html') # render the HTML template
 
 @app.route('/get_speed')
 def get_speed():
-    return jsonify({"speed": label_text})
+    return jsonify({"speed": speed_label, "rpm": rpm_label}) # Return the speed
 
 
     
 
 if __name__ == '__main__':
-    Thread(target=modify_speed, daemon=True).start()  # Run the background task
+    #Thread(target=test_label1, daemon=True).start()  # Run the background task
+    #Thread(target=test_label2, daemon=True).start()
     app.run(debug=True)
 
 
