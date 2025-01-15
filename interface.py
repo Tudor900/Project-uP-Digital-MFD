@@ -37,7 +37,7 @@ def test_label2():
                 rpm_label = 0
             time.sleep(1)
 
-connection = obd.Async(portstr="/dev/tty.OBDII", protocol="6", baudrate=115200, fast=False, timeout=30) # OBD connection
+#connection = obd.Async(portstr="/dev/tty.OBDII", protocol="6", baudrate=115200, fast=False, timeout=30) # OBD connection
 #print("Connection Status:", connection.is_connected()) # Check if the connection is established
 
 
@@ -57,8 +57,8 @@ def printSPEED(r):
     return SPEED
 
 
-connection.watch(obd.commands.RPM, callback=printRPM) # Watch the RPM command
-connection.watch(obd.commands.SPEED, callback=printSPEED) # Watch the speed command
+#connection.watch(obd.commands.RPM, callback=printRPM) # Watch the RPM command
+#connection.watch(obd.commands.SPEED, callback=printSPEED) # Watch the speed command
 
 #connection.start() # Start the connection
 
@@ -83,8 +83,8 @@ def get_speed():
     
 
 if __name__ == '__main__':
-    #Thread(target=test_label1, daemon=True).start()  # Run the background task
-    #Thread(target=test_label2, daemon=True).start()
+    Thread(target=test_label1, daemon=True).start()  # Run the background task
+    Thread(target=test_label2, daemon=True).start()
     app.run(debug=True)
 
 
